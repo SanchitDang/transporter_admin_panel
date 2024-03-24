@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../services/firebase_firestore_service.dart';
 
-class AllUsers extends StatelessWidget {
+class AllDrivers extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _firestoreService.getUsersData(),
+      future: _firestoreService.getDriversData(),
       builder: (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // Show a loading indicator while fetching data

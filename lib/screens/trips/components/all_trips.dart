@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../services/firebase_firestore_service.dart';
 
-class AllUsers extends StatelessWidget {
+class AllTrips extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _firestoreService.getUsersData(),
+      future: _firestoreService.getTripsData(),
       builder: (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // Show a loading indicator while fetching data
@@ -21,7 +21,7 @@ class AllUsers extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "All Users",
+                "All Deliveries",
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(
@@ -30,21 +30,21 @@ class AllUsers extends StatelessWidget {
                   columnSpacing: 10.0, // Adjust as needed
                   columns: [
                     DataColumn(
-                      label: Text("Name"),
+                      label: Text("Source"),
                     ),
                     DataColumn(
-                      label: Text("City"),
+                      label: Text("Destination"),
                     ),
                     DataColumn(
-                      label: Text("Email"),
+                      label: Text("Trip Amount"),
                     ),
                   ],
                   rows: users.map((userData) {
                     return DataRow(
                       cells: [
-                        DataCell(Text(userData['name'] ?? '')),
-                        DataCell(Text(userData['city'] ?? '')),
-                        DataCell(Text(userData['email'] ?? '')),
+                        DataCell(Text(userData['source'] ?? '')),
+                        DataCell(Text(userData['destination'] ?? '')),
+                        DataCell(Text(userData['trip_amount'].toString() ?? '')),
                       ],
                     );
                   }).toList(),

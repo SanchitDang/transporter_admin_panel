@@ -1,11 +1,31 @@
 import 'package:admin/constants.dart';
 import 'package:admin/controllers/MenuAppController.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyArkP8jpFipJdTpYuwX45QSevEaIMPxEJo",
+            authDomain: "transporter-3634f.firebaseapp.com",
+            projectId: "transporter-3634f",
+            storageBucket: "transporter-3634f.appspot.com",
+            messagingSenderId: "828241845214",
+            appId: "1:828241845214:web:bb1f7c4ab83bda11be9b4f",
+            measurementId: "G-D8DDNGWHTW"
+        ));
+
+  } else {
+    await Firebase.initializeApp();
+  }
+
   runApp(
     MultiProvider(
       providers: [

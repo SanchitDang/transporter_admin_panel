@@ -1,3 +1,5 @@
+import 'package:admin/screens/drivers/drivers_screen.dart';
+import 'package:admin/screens/trips/trips_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -46,7 +48,15 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Drivers",
             svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+            press: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => DriversScreen(),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Warehouses",
@@ -56,7 +66,15 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Delivery",
             svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+            press: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => TripsScreen(),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Set Price",
