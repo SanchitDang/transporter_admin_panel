@@ -1,4 +1,6 @@
+import 'package:admin/screens/activity_log/views/activity_log.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../services/firebase_firestore_service.dart';
 
 class AllTrips extends StatelessWidget {
@@ -38,6 +40,9 @@ class AllTrips extends StatelessWidget {
                     DataColumn(
                       label: Text("Trip Amount"),
                     ),
+                    DataColumn(
+                      label: Text("Actions"),
+                    ),
                   ],
                   rows: users.map((userData) {
                     return DataRow(
@@ -45,6 +50,27 @@ class AllTrips extends StatelessWidget {
                         DataCell(Text(userData['source'] ?? '')),
                         DataCell(Text(userData['destination'] ?? '')),
                         DataCell(Text(userData['trip_amount'].toString() ?? '')),
+                        DataCell(Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation, secondaryAnimation) => ActivityLog(userData),
+
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                minimumSize:
+                                    Size(Get.width * 0.1, Get.height * 0.05),
+                              ),
+                              child: Text("TRACK"),
+                            ),
+                          ],
+                        )),
                       ],
                     );
                   }).toList(),

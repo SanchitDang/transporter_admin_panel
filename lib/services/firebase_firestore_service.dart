@@ -9,11 +9,7 @@ class FirestoreService {
     QuerySnapshot usersSnapshot = await _usersCollection.get();
     List<Map<String, dynamic>> userList = [];
     usersSnapshot.docs.forEach((userDoc) {
-      userList.add({
-        'name': userDoc['name'],
-        'city': userDoc['city'],
-        'email': userDoc['email'],
-      });
+      userList.add(userDoc.data() as Map<String, dynamic>);
     });
     return userList;
   }
@@ -25,29 +21,32 @@ class FirestoreService {
     QuerySnapshot usersSnapshot = await _usersCollection.get();
     List<Map<String, dynamic>> userList = [];
     usersSnapshot.docs.forEach((userDoc) {
-      userList.add({
-        'name': userDoc['name'],
-        'city': userDoc['city'],
-        'email': userDoc['email'],
-      });
+      userList.add(userDoc.data() as Map<String, dynamic>);
     });
     return userList;
   }
 
   Future<List<Map<String, dynamic>>> getTripsData() async {
-    final CollectionReference _usersCollection =
+    final CollectionReference tripsCollection =
     FirebaseFirestore.instance.collection('trips');
 
-    QuerySnapshot usersSnapshot = await _usersCollection.get();
-    List<Map<String, dynamic>> userList = [];
-    usersSnapshot.docs.forEach((userDoc) {
-      userList.add({
-        'destination': userDoc['destination'],
-        'source': userDoc['source'],
-        'trip_amount': userDoc['trip_amount'],
-      });
+    QuerySnapshot tripsSnapshot = await tripsCollection.get();
+    List<Map<String, dynamic>> tripList = [];
+    tripsSnapshot.docs.forEach((tripDoc) {
+      tripList.add(tripDoc.data() as Map<String, dynamic>);
     });
-    return userList;
+    return tripList;
   }
 
+  Future<void> changeDeliveryStatus(String documentId, String fieldName, bool status) async {
+    final CollectionReference _tripsCollection =
+    FirebaseFirestore.instance.collection('trips');
+    try {
+      await _tripsCollection.doc(documentId).update({
+        fieldName: status,
+      });
+    } catch (e) {
+      throw Exception("Failed to update delivery status: $e");
+    }
+  }
 }
