@@ -20,7 +20,7 @@ class UberMapDataSourceImpl extends UberMapDataSource {
 
   UberMapDataSourceImpl({ required this.firestore, } );
 
-  String apiKey = "AIzaSyBJnW7uKl9qaMpvdZsLRvaY4HvYIg2FWsQ";
+  String apiKey = "";
 
   @override
   Future<PredictionsList> getUberMapPrediction(String placeName) async {
