@@ -1,10 +1,17 @@
 import 'package:admin/screens/activity_log/views/activity_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../services/firebase_firestore_service.dart';
+import '../../booking/uber_map_feature/presentation/pages/map_with_source_destination_field.dart';
 
 class AllTrips extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
+
+  static const CameraPosition _defaultLocation = CameraPosition(
+    target: LatLng(23.030357, 72.517845),
+    zoom: 14.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +75,25 @@ class AllTrips extends StatelessWidget {
                                     Size(Get.width * 0.1, Get.height * 0.05),
                               ),
                               child: Text("TRACK"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation, secondaryAnimation) => MapWithSourceDestinationField(
+                                        newCameraPosition: _defaultLocation,
+                                        defaultCameraPosition: _defaultLocation),
+
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                minimumSize:
+                                    Size(Get.width * 0.1, Get.height * 0.05),
+                              ),
+                              child: Text("Demo Find Driver"),
                             ),
                           ],
                         )),

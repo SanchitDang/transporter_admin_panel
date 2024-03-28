@@ -2,7 +2,9 @@ import 'package:admin/screens/drivers/drivers_screen.dart';
 import 'package:admin/screens/trips/trips_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../booking/uber_map_feature/presentation/pages/map_with_source_destination_field.dart';
 import '../../users/users_screen.dart';
 import '../main_screen.dart';
 
@@ -10,6 +12,11 @@ class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
   }) : super(key: key);
+
+  static const CameraPosition _defaultLocation = CameraPosition(
+    target: LatLng(23.030357, 72.517845),
+    zoom: 14.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +97,23 @@ class SideMenu extends StatelessWidget {
             title: "Settings",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {},
+          ),
+          DrawerListTile(
+            title: "Debug",
+            svgSrc: "assets/icons/menu_setting.svg",
+            press: () {
+
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => MapWithSourceDestinationField(
+                          newCameraPosition: _defaultLocation,
+                          defaultCameraPosition: _defaultLocation),
+
+                    ),
+                  );
+
+            },
           ),
         ],
       ),
