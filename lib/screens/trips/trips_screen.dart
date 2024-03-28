@@ -1,7 +1,7 @@
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/trips/components/all_trips.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 import '../../constants.dart';
 import '../../controllers/MenuAppController.dart';
@@ -12,7 +12,7 @@ class TripsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menuAppController = context.read<MenuAppController>();
+    final MenuAppController menuAppController = Get.find<MenuAppController>();
 
     return Scaffold(
       key: menuAppController.scaffoldKey,

@@ -1,11 +1,9 @@
 import 'package:admin/constants.dart';
-import 'package:admin/controllers/MenuAppController.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'injection_container.dart' as di;
 import 'package:get/get.dart';
 
@@ -28,16 +26,7 @@ void main() async {
     await Firebase.initializeApp();
   }
   await di.init();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => MenuAppController(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

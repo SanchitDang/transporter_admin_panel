@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin/screens/booking/uber_map_feature/data/data_sources/uber_map_data_source.dart';
 import 'package:admin/screens/booking/uber_map_feature/data/data_sources/uber_map_data_source_impl.dart';
@@ -15,9 +16,14 @@ import 'package:admin/screens/booking/uber_map_feature/domain/use_cases/vehicle_
 import 'package:admin/screens/booking/uber_map_feature/presentation/getx/uber_map_controller.dart';
 import 'package:get_it/get_it.dart';
 
+import 'controllers/MenuAppController.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
+
+  // Register MenuAppController with GetX
+  Get.put(MenuAppController());
 
   // getx
   sl.registerFactory<UberMapController>(() => UberMapController(

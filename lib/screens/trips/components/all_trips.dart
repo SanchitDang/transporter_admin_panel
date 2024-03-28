@@ -47,63 +47,74 @@ class AllTrips extends StatelessWidget {
                     ),
                   ],
                   rows: users.map((userData) {
-                    return DataRow(
-                      cells: [
-                        DataCell(Text(userData['source'] ?? '')),
-                        DataCell(Text(userData['destination'] ?? '')),
-                        DataCell(
-                            Text(userData['trip_amount'].toString() ?? '')),
-                        DataCell(Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                final TripDataController tripDataController =
+                    if (userData != null && !userData['is_from_admin']) {
+                      return DataRow(
+                        cells: [
+                          DataCell(Text(userData['source'] ?? '')),
+                          DataCell(Text(userData['destination'] ?? '')),
+                          DataCell(Text(userData['trip_amount'].toString() ?? '')),
+                          DataCell(
+                            Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    final TripDataController tripDataController =
                                     Get.put(TripDataController());
 
-                                // Assuming userData['source_location'] and userData['destination_location'] are GeoPoint objects
-                                GeoPoint sourceLocation =
-                                    userData['source_location'];
-                                GeoPoint destinationLocation =
+                                    // Assuming userData['source_location'] and userData['destination_location'] are GeoPoint objects
+                                    GeoPoint? sourceLocation = userData['source_location'];
+                                    GeoPoint? destinationLocation =
                                     userData['destination_location'];
 
-                                // Extract latitude and longitude from source location
-                                double sourceLat = sourceLocation.latitude;
-                                double sourceLng = sourceLocation.longitude;
+                                    if (sourceLocation != null && destinationLocation != null) {
+                                      // Extract latitude and longitude from source location
+                                      double sourceLat = sourceLocation.latitude;
+                                      double sourceLng = sourceLocation.longitude;
 
-                                // Extract latitude and longitude from destination location
-                                double destinationLat =
-                                    destinationLocation.latitude;
-                                double destinationLng =
-                                    destinationLocation.longitude;
+                                      // Extract latitude and longitude from destination location
+                                      double destinationLat = destinationLocation.latitude;
+                                      double destinationLng = destinationLocation.longitude;
 
-                                // Update TripDataController with extracted values
-                                tripDataController.updateSourcePlace(
-                                    userData['source'], sourceLat, sourceLng);
-                                tripDataController.updateDestinationPlace(
-                                    userData['destination'],
-                                    destinationLat,
-                                    destinationLng);
+                                      // Update TripDataController with extracted values
+                                      tripDataController.updateSourcePlace(
+                                          userData['source'], sourceLat, sourceLng);
+                                      tripDataController.updateDestinationPlace(
+                                          userData['destination'], destinationLat, destinationLng);
 
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        ActivityLog(userData),
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) =>
+                                              ActivityLog(userData),
+                                        ),
+                                      );
+                                    } else {
+                                      // Handle null GeoPoint objects
+                                      // Display an error message or handle it as per your requirement
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    minimumSize: Size(Get.width * 0.1, Get.height * 0.05),
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                minimumSize:
-                                    Size(Get.width * 0.1, Get.height * 0.05),
-                              ),
-                              child: Text("TRACK"),
+                                  child: Text("TRACK"),
+                                ),
+                              ],
                             ),
-                          ],
-                        )),
-                      ],
-                    );
+                          ),
+                        ],
+                      );
+                    } else {
+                      // Return an empty DataRow if userData is null or not from admin
+                      return DataRow(
+                        cells: [
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')),
+                          DataCell(Text('')), // Add an empty DataCell for the "Actions" column
+                        ],
+                      );
+                    }
                   }).toList(),
                 ),
               ),

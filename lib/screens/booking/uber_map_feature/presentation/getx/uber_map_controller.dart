@@ -283,7 +283,6 @@ class UberMapController extends GetxController {
     prevTripId.value = tripId;
     final generateTripModel = GenerateTripModel(
 
-        // todo get data from controller
         tripDataController.sourcePlaceName.value,
         tripDataController.destinationPlaceName.value,
         GeoPoint(tripDataController.sourcePlaceLat.value, tripDataController.sourcePlaceLng.value),
@@ -373,6 +372,7 @@ class UberMapController extends GetxController {
 
           //change status to  out_for_delivery  to true
           FirestoreService().changeDeliveryStatus(tripId, "out_for_delivery", true);
+          FirestoreService().changeDeliveryStatus(tripId, "is_from_admin", true);
 
         }
       } else if (data.data()['is_arrived'] && !data.data()['is_completed']) {
