@@ -1,17 +1,12 @@
+import 'package:admin/controllers/TripDataController.dart';
 import 'package:admin/screens/activity_log/views/activity_log.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../services/firebase_firestore_service.dart';
-import '../../booking/uber_map_feature/presentation/pages/map_with_source_destination_field.dart';
 
 class AllTrips extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
-
-  static const CameraPosition _defaultLocation = CameraPosition(
-    target: LatLng(23.030357, 72.517845),
-    zoom: 14.4746,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +51,45 @@ class AllTrips extends StatelessWidget {
                       cells: [
                         DataCell(Text(userData['source'] ?? '')),
                         DataCell(Text(userData['destination'] ?? '')),
-                        DataCell(Text(userData['trip_amount'].toString() ?? '')),
+                        DataCell(
+                            Text(userData['trip_amount'].toString() ?? '')),
                         DataCell(Row(
                           children: [
                             ElevatedButton(
                               onPressed: () {
+                                final TripDataController tripDataController =
+                                    Get.put(TripDataController());
+
+                                // Assuming userData['source_location'] and userData['destination_location'] are GeoPoint objects
+                                GeoPoint sourceLocation =
+                                    userData['source_location'];
+                                GeoPoint destinationLocation =
+                                    userData['destination_location'];
+
+                                // Extract latitude and longitude from source location
+                                double sourceLat = sourceLocation.latitude;
+                                double sourceLng = sourceLocation.longitude;
+
+                                // Extract latitude and longitude from destination location
+                                double destinationLat =
+                                    destinationLocation.latitude;
+                                double destinationLng =
+                                    destinationLocation.longitude;
+
+                                // Update TripDataController with extracted values
+                                tripDataController.updateSourcePlace(
+                                    userData['source'], sourceLat, sourceLng);
+                                tripDataController.updateDestinationPlace(
+                                    userData['destination'],
+                                    destinationLat,
+                                    destinationLng);
+
                                 Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => ActivityLog(userData),
-
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        ActivityLog(userData),
                                   ),
                                 );
                               },
@@ -75,25 +99,6 @@ class AllTrips extends StatelessWidget {
                                     Size(Get.width * 0.1, Get.height * 0.05),
                               ),
                               child: Text("TRACK"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => MapWithSourceDestinationField(
-                                        newCameraPosition: _defaultLocation,
-                                        defaultCameraPosition: _defaultLocation),
-
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                minimumSize:
-                                    Size(Get.width * 0.1, Get.height * 0.05),
-                              ),
-                              child: Text("Demo Find Driver"),
                             ),
                           ],
                         )),

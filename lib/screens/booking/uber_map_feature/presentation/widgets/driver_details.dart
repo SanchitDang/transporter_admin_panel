@@ -1,3 +1,4 @@
+import 'package:admin/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -17,7 +18,7 @@ class DriverDetails extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: const BoxDecoration(
-            color: Color(0xfff7f6fb),
+            color: secondaryColor,
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Column(
           children: [

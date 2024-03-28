@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../controllers/TripDataController.dart';
+import '../../../../../services/firebase_firestore_service.dart';
 import '../../data/models/generate_trip_model.dart';
 import '../../domain/entities/uber_map_direction_entity.dart';
 import '../../domain/entities/uber_map_get_drivers_entity.dart';
@@ -30,8 +32,10 @@ class UberMapController extends GetxController {
   final UberMapGenerateTripUseCase uberMapGenerateTripUseCase;
   final UberMapGetVehicleDetailsUseCase uberMapGetVehicleDetailsUseCase;
   final UberCancelTripUseCase uberCancelTripUseCase;
+
   //todo rider id for admin
   var uberAuthGetUserUidUseCase = "ToONyjjSzJUSmuUjXe47yRloCIv2";
+
   var uberMapPredictionData = <UberMapPredictionEntity>[].obs;
 
   var uberMapDirectionData = <UberMapDirectionEntity>[].obs;
@@ -130,7 +134,6 @@ class UberMapController extends GetxController {
     if (sourcePlaceName.value.isNotEmpty &&
         destinationPlaceName.value.isNotEmpty) {
       if (sourcePlaceName.value != destinationPlaceName.value) {
-        //todo removed
         // getDirection();
       } //get direction data
       else {
@@ -139,10 +142,9 @@ class UberMapController extends GetxController {
     }
   }
 
-  //todo without gui admin panel ride booking ---> step 1
   Future<void> getDirection(double sourceLat, double sourceLng,
       double destinationLat, double destinationLng) async {
-    print("----------------------------------------->");
+
     availableDriversList.clear();
     final directionData = await uberMapDirectionUsecase.call(
         sourceLat, sourceLng, destinationLat, destinationLng);
@@ -264,7 +266,11 @@ class UberMapController extends GetxController {
   }
 
   generateTrip(UberDriverEntity driverData, int index) async {
-    uberCancelTripUseCase.call(prevTripId.value, true); // if canceled
+    final TripDataController tripDataController = Get.put(TripDataController());
+
+    //todo try to remove comment n solve issue
+    // uberCancelTripUseCase.call(prevTripId.value, true); // if canceled
+
     subscription.pause();
     String vehicleType = driverData.vehicle!.path.split('/').first;
     String driverId = driverData.driverId.toString();
@@ -276,10 +282,13 @@ class UberMapController extends GetxController {
     var tripId = const Uuid().v4();
     prevTripId.value = tripId;
     final generateTripModel = GenerateTripModel(
-        sourcePlaceName.value,
-        destinationPlaceName.value,
-        GeoPoint(sourceLatitude.value, sourceLongitude.value),
-        GeoPoint(destinationLatitude.value, destinationLongitude.value),
+
+        // todo get data from controller
+        tripDataController.sourcePlaceName.value,
+        tripDataController.destinationPlaceName.value,
+        GeoPoint(tripDataController.sourcePlaceLat.value, tripDataController.sourcePlaceLng.value),
+        GeoPoint(tripDataController.destinationPlaceLat.value, tripDataController.destinationPlaceLng.value),
+
         uberMapDirectionData[0].distanceValue! / 1000.roundToDouble(),
         uberMapDirectionData[0].durationText,
         false,
@@ -341,41 +350,45 @@ class UberMapController extends GetxController {
             "Driver Location"); // add only acpt_driver_marker
 
         // draw path from acpt_driver to consumer
-        final directionData = await uberMapDirectionUsecase.call(
-            driverData.currentLocation!.latitude,
-            driverData.currentLocation!.longitude,
-            sourceLatitude.value,
-            sourceLongitude.value);
-        List<PointLatLng> result = polylinePoints
-            .decodePolyline(directionData[0].enCodedPoints.toString());
-        polylineCoordinatesforacptDriver.clear();
-        result.forEach((PointLatLng point) {
-          polylineCoordinatesforacptDriver.value
-              .add(LatLng(point.latitude, point.longitude));
-        });
+        // final directionData = await uberMapDirectionUsecase.call(
+        //     driverData.currentLocation!.latitude,
+        //     driverData.currentLocation!.longitude,
+        //     sourceLatitude.value,
+        //     sourceLongitude.value);
+        // List<PointLatLng> result = polylinePoints
+        //     .decodePolyline(directionData[0].enCodedPoints.toString());
+        // polylineCoordinatesforacptDriver.clear();
+        // result.forEach((PointLatLng point) {
+        //   polylineCoordinatesforacptDriver.value
+        //       .add(LatLng(point.latitude, point.longitude));
+        // });
+
         if (findDriverLoading.value && reqAccepted.value == false) {
           findDriverLoading.value = false;
           Get.snackbar(
             "Yahoo!",
-            "request accepted by driver,driver will arrive within 10 min",
+            "request accepted by driver,driver will arrive soon",
           );
           reqAccepted.value = true;
+
+          //change status to  out_for_delivery  to true
+          FirestoreService().changeDeliveryStatus(tripId, "out_for_delivery", true);
+
         }
       } else if (data.data()['is_arrived'] && !data.data()['is_completed']) {
         Get.snackbar(
-            "driver arrived!", "Now you can track from tripHistory page!",
+            "Hooray!", "driver arrived!",
             snackPosition: SnackPosition.BOTTOM);
         tripSubscription.cancel();
-        //todo removed
-        // Get.off(() => const TripHistory());
+        //todo go back
+        Get.back();
       }
       Timer(const Duration(seconds: 60), () {
         if (reqStatus == false && findDriverLoading.value) {
           tripSubscription.cancel();
           uberCancelTripUseCase.call(tripId, false);
-          // availableDriversList.value.removeAt(index);
           Get.snackbar(
-              "Sorry !", "request denied by driver,please choose other driver",
+              "Sorry !", "request denied by driver, please choose other driver",
               snackPosition: SnackPosition.BOTTOM);
           subscription.resume();
           findDriverLoading.value = false;

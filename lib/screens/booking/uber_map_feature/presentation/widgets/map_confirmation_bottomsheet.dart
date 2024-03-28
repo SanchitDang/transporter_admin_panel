@@ -73,8 +73,7 @@ class MapConfirmationBottomSheet extends StatelessWidget {
               child: _uberMapController.reqAccepted.value
                   ? DriverDetails(uberMapController: _uberMapController)
                   : _uberMapController.findDriverLoading.value
-                      ? Lottie.network(
-                          'https://assets9.lottiefiles.com/packages/lf20_ubozqrue.json')
+                      ? CircularProgressIndicator()
                       : ListView.builder(
                           //shrinkWrap: true,
                           itemCount: _uberMapController
@@ -82,7 +81,7 @@ class MapConfirmationBottomSheet extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Container(
                               margin: const EdgeInsets.all(15),
-                              color: Colors.grey[100],
+                              color: secondaryColor,
                               child: ListTile(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 20.0, vertical: 10.0),

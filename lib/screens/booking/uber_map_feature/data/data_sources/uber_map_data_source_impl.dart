@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:admin/config.dart';
 import 'package:admin/screens/booking/uber_map_feature/data/data_sources/uber_map_data_source.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,7 @@ class UberMapDataSourceImpl extends UberMapDataSource {
 
   UberMapDataSourceImpl({ required this.firestore, } );
 
-  String apiKey = "";
+  String apiKey = mapsApiKey;
 
   @override
   Future<PredictionsList> getUberMapPrediction(String placeName) async {

@@ -2,6 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../../../controllers/TripDataController.dart';
 import '/../../injection_container.dart' as di;
 
 import '../getx/uber_map_controller.dart';
@@ -67,74 +68,30 @@ class _MapWithSourceDestinationFieldState
                       visible: !_uberMapController.isPoliLineDraw.value,
                       child: Container(
                         padding: const EdgeInsets.all(15),
-                        color: Colors.grey[300],
+                        color: primaryColor,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: const BoxDecoration(
-                                  color: secondaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: TextField(
-                                onChanged: (val) {
-                                  _uberMapController.getPredictions(
-                                      val, 'source');
-                                },
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Enter Source Place"),
-                                controller: sourcePlaceController
-                                  ..text =
-                                      _uberMapController.sourcePlaceName.value,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: const BoxDecoration(
-                                  color: secondaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: TextField(
-                                onChanged: (val) {
-                                  _uberMapController.getPredictions(
-                                      val, 'destination');
-                                },
-                                decoration: const InputDecoration(
-                                  hintText: "Enter Destination Place",
-                                  border: InputBorder.none,
-                                ),
-                                controller: destinationController
-                                  ..text = _uberMapController
-                                      .destinationPlaceName.value,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            Text('Find a driver to drop the goods to customer',
+                                style: TextStyle(fontSize: 18)),
                             ElevatedButton(
                               onPressed: () {
-                                _uberMapController.getDirection(28.6352454,
-                                    77.1174826, 24.8866859, 85.54345719999999);
+                                final TripDataController tripDataController =
+                                    Get.put(TripDataController());
+
+                                _uberMapController.getDirection(
+                                    tripDataController.sourcePlaceLat.value,
+                                    tripDataController.sourcePlaceLng.value,
+                                    tripDataController
+                                        .destinationPlaceLat.value,
+                                    tripDataController
+                                        .destinationPlaceLng.value);
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize:
                                     Size(Get.width * 0.26, Get.height * 0.05),
                               ),
-                              child: Text("GetDriver"),
+                              child: Text("Find Driver"),
                             ),
                           ],
                         ),

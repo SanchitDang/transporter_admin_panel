@@ -1,6 +1,8 @@
 import 'package:admin/services/firebase_firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../booking/uber_map_feature/presentation/pages/map_with_source_destination_field.dart';
 import '../controller/activity_log_controller.dart';
 
 class ActivityLog extends StatefulWidget {
@@ -21,13 +23,34 @@ class _ActivityLogState extends State<ActivityLog> {
       children: [
         ElevatedButton(
           onPressed: () {
-            FirestoreService().changeDeliveryStatus(widget.data['trip_id'], controller.getSelectedFieldName(), true);
+
+            // if we're in warehouse destination ie want to find driver for delivery
+            if(controller.currentStep.value == 5){
+              const CameraPosition _defaultLocation = CameraPosition(
+                target: LatLng(23.030357, 72.517845),
+                zoom: 14.4746,
+              );
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      MapWithSourceDestinationField(
+                          newCameraPosition: _defaultLocation,
+                          defaultCameraPosition: _defaultLocation),
+                ),
+              );
+              // for this condition changeDeliveryStatus function will run once trip is accepted by driver
+
+            }else {
+              FirestoreService().changeDeliveryStatus(widget.data['trip_id'], controller.getSelectedFieldName(), true);
+            }
             widget.data[controller.getSelectedFieldName()] = true;
             controller.continueStep();
             details.onStepContinue;
-            setState(() {
+              setState(() {
 
-            });
+              });
+
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size(Get.width * 0.26, Get.height * 0.05),
@@ -75,7 +98,7 @@ class _ActivityLogState extends State<ActivityLog> {
       print("in 5");
       activityLogController.currentStep = 5.obs;
       //change status out_for_delivery to true
-      //todo here find and assign a driver
+      // !! here find and assign a driver !!
       activityLogController.changeSelectedFieldName('out_for_delivery');
     } else if(widget.data['out_for_delivery'] && !widget.data['delivered']) {
       print("in 6");
