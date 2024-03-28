@@ -31,7 +31,7 @@ class UberMapController extends GetxController {
   final UberMapGetVehicleDetailsUseCase uberMapGetVehicleDetailsUseCase;
   final UberCancelTripUseCase uberCancelTripUseCase;
   //todo rider id for admin
-  var uberAuthGetUserUidUseCase = "ToONyjjSzJUSmuUjXe47yRloCIv2";
+  var uberAuthGetUserUidUseCase = "a";
   var uberMapPredictionData = <UberMapPredictionEntity>[].obs;
 
   var uberMapDirectionData = <UberMapDirectionEntity>[].obs;
