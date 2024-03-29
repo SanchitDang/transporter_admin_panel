@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:admin/screens/trips/trips_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -268,7 +269,7 @@ class UberMapController extends GetxController {
   generateTrip(UberDriverEntity driverData, int index) async {
     final TripDataController tripDataController = Get.put(TripDataController());
 
-    //todo try to remove comment n solve issue
+    //todo try to remove comment
     // uberCancelTripUseCase.call(prevTripId.value, true); // if canceled
 
     subscription.pause();
@@ -370,9 +371,12 @@ class UberMapController extends GetxController {
           );
           reqAccepted.value = true;
 
-          //change status to  out_for_delivery  to true
-          FirestoreService().changeDeliveryStatus(tripId, "out_for_delivery", true);
+          //change status to  out_for_delivery to true for the selected trip
+          FirestoreService().changeDeliveryStatus(tripDataController.tripId.value, "out_for_delivery", true);
+
+          //change status to is_from_admin to true for this new trip
           FirestoreService().changeDeliveryStatus(tripId, "is_from_admin", true);
+          FirestoreService().changeDeliveryStatus(tripId, "out_for_delivery", true);
 
         }
       } else if (data.data()['is_arrived'] && !data.data()['is_completed']) {
@@ -380,8 +384,7 @@ class UberMapController extends GetxController {
             "Hooray!", "driver arrived!",
             snackPosition: SnackPosition.BOTTOM);
         tripSubscription.cancel();
-        //todo go back
-        Get.back();
+        Get.off(() => TripsScreen());
       }
       Timer(const Duration(seconds: 60), () {
         if (reqStatus == false && findDriverLoading.value) {

@@ -55,7 +55,7 @@ class _ActivityLogState extends State<ActivityLog> {
           style: ElevatedButton.styleFrom(
             minimumSize: Size(Get.width * 0.26, Get.height * 0.05),
           ),
-          child: Text("Mark Completed"),
+          child: Text(controller.currentStep.value == 5 ? "Find Driver" : "Mark Completed"),
         ),
         // const SizedBox(width: 10),
         // ElevatedButton(
@@ -157,7 +157,7 @@ class _ActivityLogState extends State<ActivityLog> {
                 subtitle: const Text("2 Days ago"),
               ),
               Step(
-                title: Text('Out for Delivery', style: TextStyle(fontSize: 18)),
+                title: Text('Find Driver & Set Out for Delivery', style: TextStyle(fontSize: 18)),
                 content: const Text(''),
                 isActive: widget.data['out_for_delivery'] && !widget.data['delivered'],
                 subtitle: const Text("2 Days ago"),
