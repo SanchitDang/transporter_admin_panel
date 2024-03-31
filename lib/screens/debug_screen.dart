@@ -1,3 +1,4 @@
+import 'package:admin/screens/invoice/invoice_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,7 +24,7 @@ class _DeBugScreenState extends State<DeBugScreen> {
                 alignment: Alignment.topCenter,
                 child: Text('D E B U G   S C R E E N',
                     style: TextStyle(fontSize: 18))),
-            SizedBox(height: 10,),
+            SizedBox(height: 30,),
             ElevatedButton(
               onPressed: () {
                 const CameraPosition _defaultLocation = CameraPosition(
@@ -44,6 +45,22 @@ class _DeBugScreenState extends State<DeBugScreen> {
                 minimumSize: Size(Get.width * 0.26, Get.height * 0.05),
               ),
               child: Text("Find Driver"),
+            ),
+            SizedBox(height: 10,),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        InvoicePage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(Get.width * 0.26, Get.height * 0.05),
+              ),
+              child: Text("Invoice Page"),
             ),
           ],
         ),

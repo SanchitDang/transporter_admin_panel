@@ -46,6 +46,15 @@ dependencies:
   # state management
   get: ^4.5.0
 
+  # internationalization
+  intl: ^0.18.1
+
+  # opening file
+  open_file: ^3.3.2
+
+  # for pdf
+  pdf: ^3.10.0
+
   # maps related packages
   google_maps_flutter: ^2.1.1
   geolocator: ^8.0.3
