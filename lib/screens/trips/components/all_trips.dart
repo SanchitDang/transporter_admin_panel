@@ -82,6 +82,7 @@ class AllTrips extends StatelessWidget {
                                           userData['destination'], destinationLat, destinationLng);
 
                                       tripDataController.updateTripId(userData['trip_id']);
+                                      tripDataController.updateCodStatus(userData['is_cod']);
 
                                       Navigator.push(
                                         context,

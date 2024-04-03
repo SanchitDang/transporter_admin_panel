@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 class TripDataController extends GetxController {
   // Observable variables for source and destination place names and coordinates
   RxString tripId = 'xxx'.obs;
+  RxBool isCod = false.obs;
   RxString sourcePlaceName = 'Nawada'.obs;
   RxString destinationPlaceName = 'Subhash Nagar'.obs;
   RxDouble sourcePlaceLat = 28.6230738.obs;
@@ -13,6 +14,11 @@ class TripDataController extends GetxController {
   // Method to update current tripId
   void updateTripId(String id){
     tripId.value = id;
+  }
+
+  // Method to update current tripId
+  void updateCodStatus(bool status){
+    isCod.value = status;
   }
 
   // Method to update source place data

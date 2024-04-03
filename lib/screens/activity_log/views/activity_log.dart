@@ -60,13 +60,14 @@ class _ActivityLogState extends State<ActivityLog> {
 
                         }else {
                           FirestoreService().changeDeliveryStatus(widget.data['trip_id'], controller.getSelectedFieldName(), true);
+                          Navigator.of(context).pop(true);
                         }
                         widget.data[controller.getSelectedFieldName()] = true;
                         controller.continueStep();
                         details.onStepContinue;
                         setState(() {});
 
-                        Navigator.of(context).pop(true);
+
                       },
                       child: Text("OK"),
                     ),

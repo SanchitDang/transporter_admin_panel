@@ -304,7 +304,9 @@ class UberMapController extends GetxController {
                 : bikeRent.value,
         false,
         false,
-        tripId);
+        tripId,
+        tripDataController.isCod.value
+    );
     Stream reqStatusData = uberMapGenerateTripUseCase.call(generateTripModel);
     findDriverLoading.value = true;
     late StreamSubscription tripSubscription;

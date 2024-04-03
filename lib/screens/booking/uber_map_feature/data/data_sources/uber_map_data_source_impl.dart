@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:admin/config.dart';
+import 'package:admin/controllers/TripDataController.dart';
 import 'package:admin/screens/booking/uber_map_feature/data/data_sources/uber_map_data_source.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -89,6 +90,8 @@ class UberMapDataSourceImpl extends UberMapDataSource {
 
   @override
   Stream generateTrip(GenerateTripModel generateTripModel) {
+    final TripDataController tripDataController = Get.put(TripDataController());
+
     final genarateTripCollection = firestore.collection("trips");
     genarateTripCollection.doc(generateTripModel.tripId).set({
       //isArrived
@@ -115,6 +118,7 @@ class UberMapDataSourceImpl extends UberMapDataSource {
       'reached_warehouse_destination': false,
       'out_for_delivery': false,
       'delivered': false,
+      'is_cod': tripDataController.isCod.value
     });
 
     return genarateTripCollection.doc(generateTripModel.tripId).snapshots();
