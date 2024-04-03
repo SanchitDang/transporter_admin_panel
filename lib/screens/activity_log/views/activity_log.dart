@@ -1,3 +1,4 @@
+import 'package:admin/services/dart_html_service.dart';
 import 'package:admin/services/firebase_firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,33 +24,56 @@ class _ActivityLogState extends State<ActivityLog> {
       children: [
         ElevatedButton(
           onPressed: () {
+            // show confirmation dialog
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Confirmation"),
+                  content: Text("Are you sure?\nThis cannot be undone."),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text("Cancel"),
+                    ),
+                    TextButton(
+                      onPressed: () {
 
-            // if we're in warehouse destination ie want to find driver for delivery
-            if(controller.currentStep.value == 5){
-              const CameraPosition _defaultLocation = CameraPosition(
-                target: LatLng(23.030357, 72.517845),
-                zoom: 14.4746,
-              );
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      MapWithSourceDestinationField(
-                          newCameraPosition: _defaultLocation,
-                          defaultCameraPosition: _defaultLocation),
-                ),
-              );
-              // for this condition changeDeliveryStatus function will run once trip is accepted by driver
+                        // if we're in warehouse destination ie want to find driver for delivery
+                        if(controller.currentStep.value == 5){
+                          const CameraPosition _defaultLocation = CameraPosition(
+                            target: LatLng(23.030357, 72.517845),
+                            zoom: 14.4746,
+                          );
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
+                                  MapWithSourceDestinationField(
+                                      newCameraPosition: _defaultLocation,
+                                      defaultCameraPosition: _defaultLocation),
+                            ),
+                          );
+                          // for this condition changeDeliveryStatus function will run once trip is accepted by driver
 
-            }else {
-              FirestoreService().changeDeliveryStatus(widget.data['trip_id'], controller.getSelectedFieldName(), true);
-            }
-            widget.data[controller.getSelectedFieldName()] = true;
-            controller.continueStep();
-            details.onStepContinue;
-              setState(() {
+                        }else {
+                          FirestoreService().changeDeliveryStatus(widget.data['trip_id'], controller.getSelectedFieldName(), true);
+                        }
+                        widget.data[controller.getSelectedFieldName()] = true;
+                        controller.continueStep();
+                        details.onStepContinue;
+                        setState(() {});
 
-              });
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
+                );
+              },
+            );
 
           },
           style: ElevatedButton.styleFrom(
@@ -57,14 +81,20 @@ class _ActivityLogState extends State<ActivityLog> {
           ),
           child: Text(controller.currentStep.value == 5 ? "Find Driver" : "Mark Completed"),
         ),
-        // const SizedBox(width: 10),
-        // ElevatedButton(
-        //   onPressed: details.onStepCancel,
-        //   style: ElevatedButton.styleFrom(
-        //     minimumSize: Size(Get.width * 0.3, Get.height * 0.05),
-        //   ),
-        //   child: Text("Back"),
-        // ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () {
+            // details.onStepCancel;
+
+            final DartHtmlFunctions _dartHtmlFunctions = DartHtmlFunctions();
+            _dartHtmlFunctions.uploadPdfFile(widget.data['trip_id'], controller.getSelectedFieldName()+'_receipt.pdf');
+
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(Get.width * 0.3, Get.height * 0.05),
+          ),
+          child: Text("Upload Receipt"),
+        ),
       ],
     );
   }
@@ -174,4 +204,26 @@ class _ActivityLogState extends State<ActivityLog> {
       )),
     );
   }
+
+  AlertDialog buildConfirmAlertDialog(BuildContext context){
+    return AlertDialog(
+      title: Text("Confirmation"),
+      content: Text("Are you sure?\nThis cannot be undone."),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+          child: Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+          child: Text("OK"),
+        ),
+      ],
+    );
+  }
+
 }
