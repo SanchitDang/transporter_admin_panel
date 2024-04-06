@@ -91,7 +91,7 @@ class UpdateProfileScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () =>
-                            Get.to(() => const UpdateProfileScreen()),
+                           profileController.submitProfileUpdate(),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,
                             side: BorderSide.none,
@@ -103,33 +103,33 @@ class UpdateProfileScreen extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     // -- Disable and Delete User Button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.deepOrangeAccent.withOpacity(0.1),
-                              elevation: 0,
-                              foregroundColor: Colors.deepOrange,
-                              shape: const StadiumBorder(),
-                              side: BorderSide.none),
-                          child: const Text("Disable User"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.redAccent.withOpacity(0.1),
-                              elevation: 0,
-                              foregroundColor: Colors.red,
-                              shape: const StadiumBorder(),
-                              side: BorderSide.none),
-                          child: const Text("Delete User"),
-                        ),
-                      ],
-                    )
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     ElevatedButton(
+                    //       onPressed: () {},
+                    //       style: ElevatedButton.styleFrom(
+                    //           backgroundColor:
+                    //               Colors.deepOrangeAccent.withOpacity(0.1),
+                    //           elevation: 0,
+                    //           foregroundColor: Colors.deepOrange,
+                    //           shape: const StadiumBorder(),
+                    //           side: BorderSide.none),
+                    //       child: const Text("Disable User"),
+                    //     ),
+                    //     ElevatedButton(
+                    //       onPressed: () {},
+                    //       style: ElevatedButton.styleFrom(
+                    //           backgroundColor:
+                    //               Colors.redAccent.withOpacity(0.1),
+                    //           elevation: 0,
+                    //           foregroundColor: Colors.red,
+                    //           shape: const StadiumBorder(),
+                    //           side: BorderSide.none),
+                    //       child: const Text("Delete User"),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),

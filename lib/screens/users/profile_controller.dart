@@ -1,3 +1,4 @@
+import 'package:admin/services/firebase_firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,10 +39,16 @@ class ProfileController extends GetxController {
     obscurePassword.value = !obscurePassword.value;
   }
 
-  // Method to handle profile update submission
-  void submitProfileUpdate() {
-    // Add logic here to handle profile update submission
+  void submitProfileUpdate() async {
+    FirestoreService().updateUserProfile(
+      riderId.value,
+      nameController.text,
+      emailController.text,
+      mobileController.text,
+      cityController.text,
+    );
   }
+
 
   // Method to delete the profile
   void deleteProfile() {

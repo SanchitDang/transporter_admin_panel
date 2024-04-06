@@ -2,9 +2,47 @@ import 'dart:html' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FirestoreService {
+
+  void updateUserProfile(String riderId, name, email, mobile, city) async {
+    final CollectionReference _ridersCollection =
+    FirebaseFirestore.instance.collection('riders');
+
+    try {
+      // Get the current user's ID
+      String userId = riderId;
+
+      // Update the user's profile data in Firestore
+      await _ridersCollection.doc(userId).update({
+        'name': name,
+        'email': email,
+        'mobile': mobile,
+        'city': city,
+      });
+
+      // Display a success message
+      Get.snackbar(
+        'Success',
+        'Profile updated successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      // Handle errors
+      Get.snackbar(
+        'Error',
+        'Failed to update profile: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
 
   Future<List<Map<String, dynamic>>> getUsersData() async {
     final CollectionReference _usersCollection =
