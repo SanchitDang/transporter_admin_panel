@@ -1,5 +1,8 @@
+import 'package:admin/screens/users/update_user.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../services/firebase_firestore_service.dart';
+import '../profile_controller.dart';
 
 class AllUsers extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -38,6 +41,10 @@ class AllUsers extends StatelessWidget {
                     DataColumn(
                       label: Text("Email"),
                     ),
+                    DataColumn(
+                      label: Text("Actions"),
+                    ),
+
                   ],
                   rows: users.map((userData) {
                     return DataRow(
@@ -45,6 +52,33 @@ class AllUsers extends StatelessWidget {
                         DataCell(Text(userData['name'] ?? '')),
                         DataCell(Text(userData['city'] ?? '')),
                         DataCell(Text(userData['email'] ?? '')),
+                        DataCell(
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+
+                                  ProfileController profileController = Get.put(ProfileController());
+                                  profileController.setDataFromUserData(userData);
+
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) =>
+                                          UpdateProfileScreen()
+                                    ),
+                                  );
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  minimumSize: Size(Get.width * 0.1, Get.height * 0.05),
+                                ),
+                                child: Text("EDIT"),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     );
                   }).toList(),
