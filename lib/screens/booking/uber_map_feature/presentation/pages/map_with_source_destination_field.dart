@@ -1,9 +1,10 @@
-import 'package:admin/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../../controllers/TripDataController.dart';
-import '/../../injection_container.dart' as di;
+import '../../../../../utils/constants.dart';
+import '../../../../../utils/injection_container.dart' as di;
 
 import '../getx/uber_map_controller.dart';
 import '../widgets/map_confirmation_bottomsheet.dart';

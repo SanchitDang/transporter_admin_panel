@@ -1,11 +1,11 @@
-import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lottie/lottie.dart';
-import '/../../injection_container.dart' as di;
+import '../../../../../utils/constants.dart';
+import '../../../../../utils/injection_container.dart' as di;
 
 import '../getx/uber_map_controller.dart';
 import 'driver_details.dart';

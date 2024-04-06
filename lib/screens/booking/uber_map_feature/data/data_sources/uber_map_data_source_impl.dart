@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:admin/config.dart';
+import 'package:admin/utils/config.dart';
 import 'package:admin/controllers/TripDataController.dart';
 import 'package:admin/screens/booking/uber_map_feature/data/data_sources/uber_map_data_source.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

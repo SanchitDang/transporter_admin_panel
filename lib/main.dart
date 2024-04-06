@@ -1,10 +1,10 @@
-import 'package:admin/constants.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:admin/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'injection_container.dart' as di;
+import 'utils/injection_container.dart' as di;
 import 'package:get/get.dart';
 
 void main() async {

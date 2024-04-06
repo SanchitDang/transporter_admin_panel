@@ -121,7 +121,13 @@ class FirestoreService {
       Get.snackbar("Great!", "File uploaded...");
 
     } catch (e) {
-      Get.snackbar("Error!", "Failed to upload file: $e");
+      Get.snackbar(
+        'Error',
+        'Failed to upload file: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       throw Exception("Failed to upload image to Firebase: $e");
     }
   }
@@ -151,5 +157,41 @@ class FirestoreService {
   //     throw Exception("Failed to upload image to Firebase: $e");
   //   }
   // }
+
+  // Function to create a new warehouse document
+  Future<void> createWarehouseDocument(String? state, String name, double lat, double lng) async {
+    try {
+      // Reference to the warehouses collection
+      final warehousesRef = FirebaseFirestore.instance.collection('warehouses').doc('states').collection(state ?? "null");
+
+      // Create a new document with an auto-generated ID
+      final warehouseDocRef = await warehousesRef.add({
+        'name': name,
+        'lat': lat,
+        'lng': lng,
+        'warehouse_id': '', // Will be updated with the ID of the newly created document
+      });
+
+      // Update the warehouse_id field with the ID of the newly created document
+      await warehouseDocRef.update({
+        'warehouse_id': warehouseDocRef.id,
+      });
+      Get.snackbar(
+        'Success',
+        'Warehouse document created successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to create warehouse: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
 
 }

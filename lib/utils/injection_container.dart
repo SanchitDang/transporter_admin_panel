@@ -16,7 +16,7 @@ import 'package:admin/screens/booking/uber_map_feature/domain/use_cases/vehicle_
 import 'package:admin/screens/booking/uber_map_feature/presentation/getx/uber_map_controller.dart';
 import 'package:get_it/get_it.dart';
 
-import 'controllers/MenuAppController.dart';
+import '../controllers/MenuAppController.dart';
 
 final sl = GetIt.instance;
 

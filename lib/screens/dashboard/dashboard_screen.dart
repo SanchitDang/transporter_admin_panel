@@ -1,8 +1,8 @@
-import 'package:admin/responsive.dart';
+import '../../utils/responsive.dart';
 import 'package:admin/screens/dashboard/components/my_fields.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import '../../utils/constants.dart';
 import 'components/header.dart';
 
 import 'components/recent_users.dart';

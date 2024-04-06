@@ -1,6 +1,7 @@
 import 'package:admin/screens/debug_screen.dart';
 import 'package:admin/screens/drivers/drivers_screen.dart';
 import 'package:admin/screens/trips/trips_screen.dart';
+import 'package:admin/screens/warehouses/warehouses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -65,7 +66,16 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Warehouses",
             svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+            press: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      WarehousesScreen(),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Delivery",

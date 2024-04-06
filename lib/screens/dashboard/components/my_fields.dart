@@ -1,9 +1,7 @@
-
-import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants.dart';
+import '../../../utils/constants.dart';
 import '../../../models/MyFields.dart';
+import '../../../utils/responsive.dart';
 import 'file_info_card.dart';
 
 class MyFields extends StatelessWidget {

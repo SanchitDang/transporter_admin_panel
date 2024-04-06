@@ -1,10 +1,11 @@
-import 'package:admin/responsive.dart';
+import '../../utils/responsive.dart';
 import 'package:admin/screens/trips/components/all_trips.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants.dart';
+import '../../utils/constants.dart';
 import '../../controllers/MenuAppController.dart';
+import '../../utils/responsive.dart';
 import '../dashboard/components/header.dart';
 import '../main/components/side_menu.dart';
 

@@ -1,15 +1,14 @@
+import 'package:admin/screens/warehouses/add_warehouse.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/responsive.dart';
 import '../../utils/constants.dart';
 import '../../controllers/MenuAppController.dart';
-import '../../utils/responsive.dart';
 import '../dashboard/components/header.dart';
 import '../main/components/side_menu.dart';
-import 'components/all_users.dart';
 
-
-class UsersScreen extends StatelessWidget {
+class WarehousesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,18 @@ class UsersScreen extends StatelessWidget {
                     children: [
                       Header(),
                       SizedBox(height: defaultPadding),
-                      AllUsers()
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: ElevatedButton(
+                          onPressed: () => Get.to(AddWarehouse()),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize:
+                            Size(Get.width * 0.1, Get.height * 0.05),
+                          ),
+                          child: Text("Add Warehouse"),
+                        ),
+                      ),
+                      // show warehouses, based on filter by states
                     ],
                   ),
                 ),
