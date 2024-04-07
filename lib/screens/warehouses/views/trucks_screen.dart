@@ -1,8 +1,7 @@
-import 'package:admin/screens/warehouses/warehouse_controller.dart';
+import 'package:admin/screens/warehouses/controller/warehouse_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class AllTrucksScreen extends StatelessWidget {
   final WarehouseController _warehouseController = Get.find<WarehouseController>();
@@ -40,9 +39,16 @@ class AllTrucksScreen extends StatelessWidget {
                 var truckData = trucks[index].data() as Map<String, dynamic>;
                 return ListTile(
                   title: Text(truckData['name'] ?? ''),
-                  subtitle: Text('Type: ${truckData['type']}, Capacity: ${truckData['capacity']}'),
+                  subtitle: Text('Type: ${truckData['type']}, Capacity: ${truckData['capacity']}', style: TextStyle(color: Colors.grey),),
                   onTap: () {
-                    // todo:: Add any onTap logic here
+
+                    _warehouseController
+                        .truckNameController.text = truckData['name'];
+                    _warehouseController
+                        .truckTypeController.text = truckData['type'];
+                    _warehouseController
+                        .truckCapacityController.text = truckData['capacity'].toString();
+
                     showDialog(
                       context: context,
                       builder: (BuildContext
@@ -108,16 +114,12 @@ class AllTrucksScreen extends StatelessWidget {
                             SizedBox(width: 14,),
                             TextButton(
                               onPressed:
-                                  () {
-                                // todo: Call the function to edit a truck to the warehouse
-
-                                    _warehouseController.editTruck(warehouseId, truckData['truck_id']);
-
-                                Navigator.pop(
-                                    context); // Close the dialog
-
-                                    Navigator.pop(
-                                        context); // go to all truck page
+                                () {
+                                  _warehouseController.editTruck(warehouseId, truckData['truck_id']);
+                                  Navigator.pop(
+                                      context); // Close the dialog
+                                  Navigator.pop(
+                                      context); // go to all truck page
                               },
                               child: Text(
                                   "Edit Truck"),

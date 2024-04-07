@@ -1,8 +1,8 @@
-import 'package:admin/screens/warehouses/warehouse_controller.dart';
+import 'package:admin/screens/warehouses/controller/warehouse_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/constants.dart';
+import '../../../utils/constants.dart';
 
 
 

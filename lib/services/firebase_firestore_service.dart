@@ -210,4 +210,29 @@ class FirestoreService {
       }
   }
 
+
+  Future<void> setVehiclePrice(String vehicleType, double price) async {
+    final CollectionReference _pricesCollection = FirebaseFirestore.instance.collection('prices');
+    try {
+      await _pricesCollection.doc('vehicles').update({
+        vehicleType: price,
+      });
+      print('Price for $vehicleType updated successfully!');
+    } catch (e) {
+      print('Failed to update price for $vehicleType: $e');
+    }
+  }
+
+  Future<Map<String, double>> getVehiclePrices() async {
+    final CollectionReference _pricesCollection = FirebaseFirestore.instance.collection('prices');
+    try {
+      final DocumentSnapshot doc =
+      await _pricesCollection.doc('vehicles').get();
+      return Map<String, double>.from(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      print('Error fetching vehicle prices: $e');
+      return {};
+    }
+  }
+
 }

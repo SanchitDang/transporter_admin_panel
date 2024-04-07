@@ -1,7 +1,8 @@
 import 'package:admin/screens/debug_screen.dart';
 import 'package:admin/screens/drivers/drivers_screen.dart';
+import 'package:admin/screens/set_price/views/set_price_screen.dart';
 import 'package:admin/screens/trips/trips_screen.dart';
-import 'package:admin/screens/warehouses/warehouses_screen.dart';
+import 'package:admin/screens/warehouses/views/warehouses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -94,18 +95,27 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Set Price",
             svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
+            press: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      SetPrice(),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {},
           ),
-          DrawerListTile(
-            title: "Settings",
-            svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
-          ),
+          // DrawerListTile(
+          //   title: "Settings",
+          //   svgSrc: "assets/icons/menu_setting.svg",
+          //   press: () {},
+          // ),
           DrawerListTile(
             title: "Debug Screen",
             svgSrc: "assets/icons/menu_setting.svg",

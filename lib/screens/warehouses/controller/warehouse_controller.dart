@@ -104,7 +104,6 @@ class WarehouseController extends GetxController {
     }
   }
 
-
   Future<List<DocumentSnapshot>> getTrucksInWarehouse(String warehouseId) async {
     try {
       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -121,6 +120,18 @@ class WarehouseController extends GetxController {
       print('Error fetching trucks in warehouse: $e');
       return [];
     }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    selectedState.value = "";
+    warehouseNameController.text = "";
+    latitudeController.text = "";
+    longitudeController.text = "";
+    truckNameController.text = "";
+    truckTypeController.text = "";
+    truckCapacityController.text = "";
   }
 
 }

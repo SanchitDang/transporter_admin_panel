@@ -1,14 +1,14 @@
-import 'package:admin/screens/warehouses/add_warehouse.dart';
-import 'package:admin/screens/warehouses/trucks_screen.dart';
-import 'package:admin/screens/warehouses/warehouse_controller.dart';
+import 'package:admin/screens/warehouses/views/add_warehouse.dart';
+import 'package:admin/screens/warehouses/views/trucks_screen.dart';
+import 'package:admin/screens/warehouses/controller/warehouse_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/responsive.dart';
-import '../../utils/constants.dart';
-import '../../controllers/MenuAppController.dart';
-import '../dashboard/components/header.dart';
-import '../main/components/side_menu.dart';
+import '../../../utils/responsive.dart';
+import '../../../utils/constants.dart';
+import '../../../controllers/MenuAppController.dart';
+import '../../dashboard/components/header.dart';
+import '../../main/components/side_menu.dart';
 
 class WarehousesScreen extends StatelessWidget {
   @override
@@ -92,7 +92,6 @@ class WarehousesScreen extends StatelessWidget {
                                     child: Text('Error: ${snapshot.error}'));
                               } else {
                                 // Display warehouse data
-
                                     var warehouse =
                                         warehouseController.warehouses;
                                     return SizedBox(
@@ -146,6 +145,7 @@ class WarehousesScreen extends StatelessWidget {
                                                       child:
                                                           Text("EDIT TRUCKS"),
                                                     ),
+                                                    SizedBox(width:20),
                                                     ElevatedButton(
                                                       onPressed: () {
                                                         showDialog(
@@ -154,14 +154,14 @@ class WarehousesScreen extends StatelessWidget {
                                                               context) {
                                                             return AlertDialog(
                                                               title: Text(
-                                                                  "Trucks"),
+                                                                  "Add Truck"),
                                                               content: Column(
                                                                 mainAxisSize:
                                                                     MainAxisSize
                                                                         .min,
                                                                 children: [
                                                                   Text(
-                                                                      "You can add/edit trucks of a warehouse from here."),
+                                                                      "You can add a truck to this warehouse from here."),
                                                                   SizedBox(
                                                                       height:
                                                                           20),
