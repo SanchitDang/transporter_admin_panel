@@ -40,7 +40,7 @@ class GenerateTripModel extends Equatable {
       this.isCod);
 
   @override
-  // TODO: implement props
+  // implement props
   List<Object?> get props => [
         source,
         destination,

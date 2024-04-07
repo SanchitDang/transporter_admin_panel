@@ -49,7 +49,6 @@ class TripDetailsScreen extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           final DartHtmlFunctions _dartHtmlFunctions = DartHtmlFunctions();
-                          //todo:: imp ---> in 2nd arg change "image_new" with actual field name in trips document (I guess done)
                           _dartHtmlFunctions.uploadFile(profileController.tripId.value, 'good_picture.jpg', 'image/jpeg,image/png,image/jpg');
                         },
                         child: const Icon(Icons.camera,

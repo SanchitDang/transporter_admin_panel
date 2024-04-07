@@ -35,7 +35,7 @@ class UberMapController extends GetxController {
   final UberCancelTripUseCase uberCancelTripUseCase;
 
   //todo rider id for admin
-  var uberAuthGetUserUidUseCase = "ToONyjjSzJUSmuUjXe47yRloCIv2";
+  var uberAuthGetUserUidUseCase = "R98PG2sseqUjbm8knJiGmwEPKUh1";
 
   var uberMapPredictionData = <UberMapPredictionEntity>[].obs;
 
@@ -269,9 +269,7 @@ class UberMapController extends GetxController {
   generateTrip(UberDriverEntity driverData, int index) async {
     final TripDataController tripDataController = Get.put(TripDataController());
 
-    //todo try to remove comment
     // uberCancelTripUseCase.call(prevTripId.value, true); // if canceled
-
     subscription.pause();
     String vehicleType = driverData.vehicle!.path.split('/').first;
     String driverId = driverData.driverId.toString();
@@ -317,7 +315,7 @@ class UberMapController extends GetxController {
       }
       if (reqStatus && findDriverLoading.value) {
         subscription.cancel();
-        final req_accepted_driver_vehicle_data =
+        final reqAcceptedDriverVehicleData =
             await uberMapGetVehicleDetailsUseCase.call(
                 vehicleType, driverId); // get vehicldata if req accepted
         req_accepted_driver_and_vehicle_data["name"] =
@@ -325,13 +323,13 @@ class UberMapController extends GetxController {
         req_accepted_driver_and_vehicle_data["mobile"] =
             driverData.mobile.toString();
         req_accepted_driver_and_vehicle_data["vehicle_color"] =
-            req_accepted_driver_vehicle_data.color;
+            reqAcceptedDriverVehicleData.color;
         req_accepted_driver_and_vehicle_data["vehicle_model"] =
-            req_accepted_driver_vehicle_data.model;
+            reqAcceptedDriverVehicleData.model;
         req_accepted_driver_and_vehicle_data["vehicle_company"] =
-            req_accepted_driver_vehicle_data.company;
+            reqAcceptedDriverVehicleData.company;
         req_accepted_driver_and_vehicle_data["vehicle_number_plate"] =
-            req_accepted_driver_vehicle_data.numberPlate.toString();
+            reqAcceptedDriverVehicleData.numberPlate.toString();
         req_accepted_driver_and_vehicle_data["profile_img"] =
             driverData.profile_img.toString();
         req_accepted_driver_and_vehicle_data["overall_rating"] =
