@@ -194,4 +194,20 @@ class FirestoreService {
     }
   }
 
+  Future<List<DocumentSnapshot>> getWarehouseData(String stateName) async {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    try {
+        QuerySnapshot querySnapshot = await _firestore
+            .collection('warehouses')
+            .doc('states')
+            .collection(stateName)
+            .get();
+        return querySnapshot.docs;
+      } catch (e) {
+        // Handle any errors
+        print('Error fetching warehouse data: $e');
+        return [];
+      }
+  }
+
 }

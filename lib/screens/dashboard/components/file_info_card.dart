@@ -1,8 +1,9 @@
-import 'package:admin/models/MyFields.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utils/constants.dart';
+import '../models/MyFields.dart';
 
 
 class FileInfoCard extends StatelessWidget {

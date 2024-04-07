@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
-import '../../../models/MyFields.dart';
+
 import '../../../utils/responsive.dart';
+import '../models/MyFields.dart';
 import 'file_info_card.dart';
 
 class MyFields extends StatelessWidget {

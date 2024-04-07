@@ -28,7 +28,7 @@ class AddWarehouse extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             DropdownButtonFormField<String>(
-              value: warehouseController.selectedState?.value == '' ? null : warehouseController.selectedState?.value,
+              value: warehouseController.selectedState.value == '' ? null : warehouseController.selectedState.value,
               hint: Text('Select State'),
               items: indianStates.map((state) {
                 return DropdownMenuItem<String>(
@@ -95,7 +95,7 @@ class AddWarehouse extends StatelessWidget {
                   minimumSize: Size(Get.width * 0.2, Get.height * 0.05),
                 ),
                 onPressed: () {
-                  if (warehouseController.selectedState?.value != null) {
+                  if (warehouseController.selectedState.value != '') {
                         warehouseController.createWarehouse();
                   } else {
                     print('Please select a state.');
