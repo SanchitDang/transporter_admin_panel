@@ -159,10 +159,10 @@ class FirestoreService {
   // }
 
   // Function to create a new warehouse document
-  Future<void> createWarehouseDocument(String? state, String name, double lat, double lng) async {
+  Future<void> createWarehouseDocument(String state, String name, double lat, double lng) async {
     try {
       // Reference to the warehouses collection
-      final warehousesRef = FirebaseFirestore.instance.collection('warehouses').doc('states').collection(state ?? "null");
+      final warehousesRef = FirebaseFirestore.instance.collection('warehouses').doc('states').collection(state);
 
       // Create a new document with an auto-generated ID
       final warehouseDocRef = await warehousesRef.add({

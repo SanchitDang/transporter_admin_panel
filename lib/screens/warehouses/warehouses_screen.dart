@@ -1,4 +1,5 @@
 import 'package:admin/screens/warehouses/add_warehouse.dart';
+import 'package:admin/screens/warehouses/trucks_screen.dart';
 import 'package:admin/screens/warehouses/warehouse_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -91,23 +92,163 @@ class WarehousesScreen extends StatelessWidget {
                                     child: Text('Error: ${snapshot.error}'));
                               } else {
                                 // Display warehouse data
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      warehouseController.warehouses.length,
-                                  itemBuilder: (context, index) {
+
                                     var warehouse =
-                                        warehouseController.warehouses[index];
-                                    return ListTile(
-                                      onTap: () {
-                                        // todo add edit trucks and their quantity
-                                      },
-                                      title: Text(warehouse['name']),
-                                      subtitle: Text(
-                                          'Lat: ${warehouse['lat']}, Lng: ${warehouse['lng']}'),
+                                        warehouseController.warehouses;
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      child: DataTable(
+                                        columnSpacing: 10.0, // Adjust as needed
+                                        columns: [
+                                          DataColumn(
+                                            label: Text("Name"),
+                                          ),
+                                          DataColumn(
+                                            label: Text("Latitude"),
+                                          ),
+                                          DataColumn(
+                                            label: Text("Longitude"),
+                                          ),
+                                          DataColumn(
+                                            label: Text("Actions"),
+                                          ),
+                                        ],
+                                        rows: warehouse.map((warehouseData) {
+                                          return DataRow(
+                                            cells: [
+                                              DataCell(Text(
+                                                  warehouseData['name'] ?? '')),
+                                              DataCell(Text(
+                                                  warehouseData['lat'].toString() )),
+                                              DataCell(Text(
+                                                  warehouseData['lng'].toString() )),
+                                              DataCell(
+                                                Row(
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          PageRouteBuilder(
+                                                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                                                AllTrucksScreen(warehouseData['warehouse_id']),
+                                                          ),
+                                                        );
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        minimumSize: Size(
+                                                            Get.width * 0.1,
+                                                            Get.height * 0.05),
+                                                      ),
+                                                      child:
+                                                          Text("EDIT TRUCKS"),
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              title: Text(
+                                                                  "Trucks"),
+                                                              content: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Text(
+                                                                      "You can add/edit trucks of a warehouse from here."),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          20),
+                                                                  TextField(
+                                                                    controller:
+                                                                        warehouseController
+                                                                            .truckNameController,
+                                                                    decoration: InputDecoration(
+                                                                        labelText:
+                                                                            'Truck Name'),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  TextField(
+                                                                    controller:
+                                                                        warehouseController
+                                                                            .truckTypeController,
+                                                                    decoration: InputDecoration(
+                                                                        labelText:
+                                                                            'Truck Type'),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  TextField(
+                                                                    controller:
+                                                                        warehouseController
+                                                                            .truckCapacityController,
+                                                                    decoration: InputDecoration(
+                                                                        labelText:
+                                                                            'Truck Capacity'),
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .number,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      "Cancel"),
+                                                                ),
+                                                                SizedBox(width: 14,),
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    // Call the function to add a truck to the warehouse
+                                                                    warehouseController
+                                                                        .addTruckToWarehouse(
+                                                                            warehouseData['warehouse_id']);
+
+                                                                    Navigator.pop(
+                                                                        context); // Close the dialog
+                                                                  },
+                                                                  child: Text(
+                                                                      "Add Trucks"),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        minimumSize: Size(
+                                                            Get.width * 0.1,
+                                                            Get.height * 0.05),
+                                                      ),
+                                                      child: Text("ADD TRUCK"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
                                     );
-                                  },
-                                );
+
                               }
                             },
                           ))

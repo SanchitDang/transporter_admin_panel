@@ -25,7 +25,7 @@ class AllUsers extends StatelessWidget {
             children: [
               Text(
                 "All Users",
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(
                 width: double.infinity,
