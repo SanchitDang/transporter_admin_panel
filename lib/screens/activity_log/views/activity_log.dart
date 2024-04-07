@@ -88,7 +88,7 @@ class _ActivityLogState extends State<ActivityLog> {
             // details.onStepCancel;
 
             final DartHtmlFunctions _dartHtmlFunctions = DartHtmlFunctions();
-            _dartHtmlFunctions.uploadPdfFile(widget.data['trip_id'], controller.getSelectedFieldName()+'_receipt.pdf');
+            _dartHtmlFunctions.uploadFile(widget.data['trip_id'], controller.getSelectedFieldName()+'_receipt.pdf','application/pdf');
 
           },
           style: ElevatedButton.styleFrom(

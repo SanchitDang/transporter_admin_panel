@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:admin/screens/users/user_profile_controller.dart';
 import '../../utils/constants.dart';
+import 'driver_profile_controller.dart';
 
-class UpdateUserProfileScreen extends StatelessWidget {
-  const UpdateUserProfileScreen({Key? key}) : super(key: key);
+class UpdateDriverProfileScreen extends StatelessWidget {
+  const UpdateDriverProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final profileController = Get.put(UserProfileController());
+    final profileController = Get.put(DriverProfileController());
 
     return Scaffold(
       appBar: AppBar(

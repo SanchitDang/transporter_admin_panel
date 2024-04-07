@@ -2,7 +2,7 @@ import 'package:admin/screens/users/update_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../services/firebase_firestore_service.dart';
-import '../profile_controller.dart';
+import '../user_profile_controller.dart';
 
 class AllUsers extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -44,7 +44,6 @@ class AllUsers extends StatelessWidget {
                     DataColumn(
                       label: Text("Actions"),
                     ),
-
                   ],
                   rows: users.map((userData) {
                     return DataRow(
@@ -58,14 +57,14 @@ class AllUsers extends StatelessWidget {
                               ElevatedButton(
                                 onPressed: () {
 
-                                  ProfileController profileController = Get.put(ProfileController());
+                                  UserProfileController profileController = Get.put(UserProfileController());
                                   profileController.setDataFromUserData(userData);
 
                                   Navigator.push(
                                     context,
                                     PageRouteBuilder(
                                       pageBuilder: (context, animation, secondaryAnimation) =>
-                                          UpdateProfileScreen()
+                                          UpdateUserProfileScreen()
                                     ),
                                   );
 

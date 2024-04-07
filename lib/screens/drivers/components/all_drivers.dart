@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../services/firebase_firestore_service.dart';
+import '../driver_profile_controller.dart';
+import '../update_driver.dart';
 
 class AllDrivers extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -38,6 +41,9 @@ class AllDrivers extends StatelessWidget {
                     DataColumn(
                       label: Text("Email"),
                     ),
+                    DataColumn(
+                      label: Text("Actions"),
+                    ),
                   ],
                   rows: users.map((userData) {
                     return DataRow(
@@ -45,6 +51,33 @@ class AllDrivers extends StatelessWidget {
                         DataCell(Text(userData['name'] ?? '')),
                         DataCell(Text(userData['city'] ?? '')),
                         DataCell(Text(userData['email'] ?? '')),
+                        DataCell(
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+
+                                  DriverProfileController profileController = Get.put(DriverProfileController());
+                                  profileController.setDataFromUserData(userData);
+
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                        pageBuilder: (context, animation, secondaryAnimation) =>
+                                            UpdateDriverProfileScreen()
+                                    ),
+                                  );
+
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  minimumSize: Size(Get.width * 0.1, Get.height * 0.05),
+                                ),
+                                child: Text("EDIT"),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     );
                   }).toList(),

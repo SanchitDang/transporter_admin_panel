@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../services/firebase_firestore_service.dart';
+import '../trip_details.dart';
+import '../trip_details_controller.dart';
 
 class AllTrips extends StatelessWidget {
   final FirestoreService _firestoreService = FirestoreService();
@@ -102,6 +104,26 @@ class AllTrips extends StatelessWidget {
                                   ),
                                   child: Text("TRACK"),
                                 ),
+                                SizedBox(width:20),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    TripDetailsController profileController = Get.put(TripDetailsController());
+                                    profileController.setDataFromTripsData(userData);
+
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) =>
+                                              TripDetailsScreen()
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    minimumSize: Size(Get.width * 0.1, Get.height * 0.05),
+                                  ),
+                                  child: Text("DETAILS"),
+                                ),
                               ],
                             ),
                           ),
@@ -114,7 +136,7 @@ class AllTrips extends StatelessWidget {
                           DataCell(Text('')),
                           DataCell(Text('')),
                           DataCell(Text('')),
-                          DataCell(Text('')), // Add an empty DataCell for the "Actions" column
+                          DataCell(Text('')),
                         ],
                       );
                     }

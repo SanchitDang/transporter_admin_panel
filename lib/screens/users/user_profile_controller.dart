@@ -2,7 +2,7 @@ import 'package:admin/services/firebase_firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {
+class UserProfileController extends GetxController {
   final RxString profileUrl = ''.obs;
   final RxString riderId = ''.obs;
   final TextEditingController nameController = TextEditingController();

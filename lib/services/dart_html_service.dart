@@ -7,9 +7,9 @@ class DartHtmlFunctions {
 
   final FirestoreService _firestoreService = FirestoreService();
 
-  void uploadPdfFile(String tripId, String fileName) {
+  void uploadFile(String tripId, String fileName, String acceptedFileType) {
     html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.accept = 'application/pdf'; // Specify accepted file types
+    uploadInput.accept = acceptedFileType;  // example for pdf 'application/pdf'
     uploadInput.click();
 
     uploadInput.onChange.listen((event) {

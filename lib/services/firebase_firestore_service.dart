@@ -43,6 +43,42 @@ class FirestoreService {
     }
   }
 
+  void updateDriverProfile(String riderId, name, email, mobile, city) async {
+    final CollectionReference _ridersCollection =
+    FirebaseFirestore.instance.collection('drivers');
+
+    try {
+      // Get the current user's ID
+      String userId = riderId;
+
+      // Update the user's profile data in Firestore
+      await _ridersCollection.doc(userId).update({
+        'name': name,
+        'email': email,
+        'mobile': mobile,
+        'city': city,
+      });
+
+      // Display a success message
+      Get.snackbar(
+        'Success',
+        'Profile updated successfully!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      // Handle errors
+      Get.snackbar(
+        'Error',
+        'Failed to update profile: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
 
   Future<List<Map<String, dynamic>>> getUsersData() async {
     final CollectionReference _usersCollection =
@@ -128,7 +164,7 @@ class FirestoreService {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-      throw Exception("Failed to upload image to Firebase: $e");
+      throw Exception("Failed to upload file to Firebase: $e");
     }
   }
 
