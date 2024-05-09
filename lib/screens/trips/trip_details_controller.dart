@@ -10,6 +10,7 @@ class TripDetailsController extends GetxController {
   final RxString travellingTime = ''.obs;
   final RxString source = ''.obs;
   final RxString destination = ''.obs;
+  final RxList<dynamic> goodsData = RxList<dynamic>();
 
   void setDataFromTripsData(Map<String, dynamic> userData) {
     picUrl.value = userData['good_picture'] ?? 'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png';
@@ -19,6 +20,7 @@ class TripDetailsController extends GetxController {
     tripDate.value = userData['trip_date'];
     tripAmount.value = userData['trip_amount'].toString();
     travellingTime.value = userData['travelling_time'];
+    goodsData.value = userData['goods_info'];
   }
 
 }
