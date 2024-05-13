@@ -31,17 +31,33 @@ class InvoiceInfo {
 }
 
 class InvoiceItem {
-  final String description;
-  final DateTime date;
-  final int quantity;
-  final double vat;
+  final String grNo;
+  final DateTime bookingDate;
+  final String bookingBranch;
+  final String destination;
+  final String consignorName;
+  final String consignorGST;
+  final String consigneeName;
+  final String consigneeGST;
+  final double quantity;
+  final String packing;
+  final String desc;
+  final String weight;
   final double unitPrice;
 
   const InvoiceItem({
-    required this.description,
-    required this.date,
+    required this.grNo,
+    required this.bookingDate,
+    required this.bookingBranch,
+    required this.destination,
+    required this.consigneeName,
+    required this.consigneeGST,
+    required this.consignorName,
+    required this.consignorGST,
     required this.quantity,
-    required this.vat,
+    required this.packing,
+    required this.desc,
+    required this.weight,
     required this.unitPrice,
   });
 }
