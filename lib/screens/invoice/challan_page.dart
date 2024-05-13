@@ -42,8 +42,8 @@ class _ChallanPageState extends State<ChallanPage> {
         challanNo: challanNumberController.text,
         grNo: grNumberController.text,
         branchName: branchNameController.text,
-        // challanDate: DateTime.parse(challanDateController.text),
-        challanDate: DateTime.now(),
+        challanDate: DateTime.parse(challanDateController.text),
+        // challanDate: DateTime.now(),
         consignorName: consignorNameController.text,
         consigneeName: consigneeNameController.text,
         pkg: pkgController.text,
@@ -86,6 +86,13 @@ class _ChallanPageState extends State<ChallanPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text("Challan"),
+          actions: [
+            ElevatedButton(
+              onPressed: _addItem,
+              child: Text('+ Add Item'),
+            ),
+            SizedBox(width: 20),
+          ],
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -97,87 +104,198 @@ class _ChallanPageState extends State<ChallanPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextField(
-                      controller: grNumberController,
-                      decoration: InputDecoration(labelText: 'G.R. Number'),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: challanNumberController,
+                                decoration: InputDecoration(
+                                    labelText: 'Challan Number'),
+                              ),
+                              TextFormField(
+                                controller: challanDateController,
+                                decoration:
+                                    InputDecoration(labelText: 'Challan Date'),
+                                readOnly:
+                                    true, // Ensure the field is read-only to prevent manual input
+                                onTap: () async {
+                                  // Show date picker and wait for the user to select a date
+                                  final DateTime? pickedDate =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  );
+
+                                  // Update the controller value if a date is selected
+                                  if (pickedDate != null) {
+                                    setState(() {
+                                      challanDateController.text = pickedDate
+                                          .toString(); // Update the text field with the selected date
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: branchNameController,
+                            decoration:
+                                InputDecoration(labelText: 'Branch Name'),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: challanNumberController,
-                      decoration: InputDecoration(labelText: 'Challan Number'),
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: branchNameController,
-                      decoration: InputDecoration(labelText: 'Branch Name'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: consignorNameController,
+                            decoration:
+                                InputDecoration(labelText: 'Consignor Name'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: consigneeNameController,
+                            decoration:
+                                InputDecoration(labelText: 'Consignee Name'),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: challanDateController,
-                      decoration: InputDecoration(labelText: 'Challan Date'),
-                      keyboardType: TextInputType.datetime,
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: consignorNameController,
-                      decoration: InputDecoration(labelText: 'Consignor Name'),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 80,
+                          child: TextField(
+                            controller: grNumberController,
+                            decoration: InputDecoration(labelText: 'G.R. No'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                          width: 70,
+                          child: TextField(
+                            controller: pkgController,
+                            decoration: InputDecoration(labelText: 'Pkg'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: TextField(
+                            controller: weightController,
+                            decoration: InputDecoration(labelText: 'Weight'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: TextField(
+                            controller: freightController,
+                            decoration: InputDecoration(labelText: 'Freight'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: destinationController,
+                            decoration:
+                                InputDecoration(labelText: 'Destination'),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: consigneeNameController,
-                      decoration: InputDecoration(labelText: 'Consignee Name'),
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: pkgController,
-                      decoration: InputDecoration(labelText: 'Pkg'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: truckNumberController,
+                                decoration:
+                                    InputDecoration(labelText: 'Truck Number'),
+                              ),
+                              TextField(
+                                controller: agentNameController,
+                                decoration:
+                                    InputDecoration(labelText: 'Agent Name'),
+                              ),
+                              TextField(
+                                controller: truckDestinationController,
+                                decoration: InputDecoration(
+                                    labelText: 'Truck Destination'),
+                              ),
+                              TextField(
+                                controller: driverNameController,
+                                decoration:
+                                    InputDecoration(labelText: 'Driver Name'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: truckFreightController,
+                                decoration:
+                                    InputDecoration(labelText: 'Truck Freight'),
+                              ),
+                              TextField(
+                                controller: advanceAmountController,
+                                decoration: InputDecoration(
+                                    labelText: 'Advance Amount'),
+                              ),
+                              TextField(
+                                controller: commissionController,
+                                decoration:
+                                    InputDecoration(labelText: 'Commission'),
+                              ),
+                              TextField(
+                                controller: crossingFreightController,
+                                decoration: InputDecoration(
+                                    labelText: 'Crossing Freight'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: weightController,
-                      decoration: InputDecoration(labelText: 'Weight'),
-                    ),
-                    TextField(
-                      controller: freightController,
-                      decoration: InputDecoration(labelText: 'Freight'),
-                    ),
-                    TextField(
-                      controller: destinationController,
-                      decoration: InputDecoration(labelText: 'Destination'),
-                    ),
-                    TextField(
-                      controller: truckNumberController,
-                      decoration: InputDecoration(labelText: 'Truck Number'),
-                    ),
-                    TextField(
-                      controller: agentNameController,
-                      decoration: InputDecoration(labelText: 'Agent Name'),
-                    ),
-                    TextField(
-                      controller: truckDestinationController,
-                      decoration:
-                          InputDecoration(labelText: 'Truck Destination'),
-                    ),
-                    TextField(
-                      controller: driverNameController,
-                      decoration: InputDecoration(labelText: 'Driver Name'),
-                    ),
-                    TextField(
-                      controller: truckFreightController,
-                      decoration: InputDecoration(labelText: 'Truck Freight'),
-                    ),
-                    TextField(
-                      controller: advanceAmountController,
-                      decoration: InputDecoration(labelText: 'Advance Amount'),
-                    ),
-                    TextField(
-                      controller: commissionController,
-                      decoration: InputDecoration(labelText: 'Commission'),
-                    ),
-                    TextField(
-                      controller: crossingFreightController,
-                      decoration:
-                          InputDecoration(labelText: 'Crossing Freight'),
-                    ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: _addItem,
-                      child: Text('Add Item'),
-                    ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 20),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length,
@@ -189,37 +307,41 @@ class _ChallanPageState extends State<ChallanPage> {
                         );
                       },
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
-              ButtonWidget(
-                text: 'Invoice PDF',
-                onClicked: () async {
-                  final date = DateTime.now();
-                  final dueDate = date.add(Duration(days: 7));
+              Padding(
+                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                child: ButtonWidget(
+                  text: 'Generate Challan PDF   ->',
+                  onClicked: () async {
+                    final date = DateTime.now();
+                    final dueDate = date.add(Duration(days: 7));
 
-                  final invoice = Challan(
-                    supplier: Supplier(
-                      name: 'Sarah Field',
-                      address: 'Sarah Street 9, Beijing, China',
-                      paymentInfo: 'https://paypal.me/sarahfieldzz',
-                    ),
-                    customer: Customer(
-                      name: 'Apple Inc.',
-                      address: 'Apple Street, Cupertino, CA 95014',
-                    ),
-                    info: ChallanInfo(
-                      date: date,
-                      dueDate: dueDate,
-                      description: 'My description...',
-                      number: '${DateTime.now().year}-9999',
-                    ),
-                    items: items,
-                  );
+                    final invoice = Challan(
+                      supplier: Supplier(
+                        name: 'Sarah Field',
+                        address: 'Sarah Street 9, Beijing, China',
+                        paymentInfo: 'https://paypal.me/sarahfieldzz',
+                      ),
+                      customer: Customer(
+                        name: 'Apple Inc.',
+                        address: 'Apple Street, Cupertino, CA 95014',
+                      ),
+                      info: ChallanInfo(
+                        date: date,
+                        dueDate: dueDate,
+                        description: 'My description...',
+                        number: '${DateTime.now().year}-9999',
+                      ),
+                      items: items,
+                    );
 
-                  final pdfFile = await PdfInvoiceApi.generate(invoice);
-                  PdfApi.openFile(pdfFile);
-                },
+                    final pdfFile = await PdfInvoiceApi.generate(invoice);
+                    PdfApi.openFile(pdfFile);
+                  },
+                ),
               ),
             ],
           ),

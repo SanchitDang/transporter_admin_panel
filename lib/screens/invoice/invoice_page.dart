@@ -16,7 +16,6 @@ class _InvoicePageState extends State<InvoicePage> {
   final List<InvoiceItem> items = [];
 
   final TextEditingController grNumberController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController bookingDateController = TextEditingController();
   final TextEditingController bookingBranchController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
@@ -71,6 +70,13 @@ class _InvoicePageState extends State<InvoicePage> {
         appBar: AppBar(
           title: Text("Invoice"),
           centerTitle: true,
+          actions: [
+            ElevatedButton(
+              onPressed: _addItem,
+              child: Text('+ Add Item'),
+            ),
+            SizedBox(width: 16),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -81,69 +87,172 @@ class _InvoicePageState extends State<InvoicePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextField(
-                      controller: descriptionController,
-                      decoration: InputDecoration(labelText: 'Description'),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 80,
+                          child: TextField(
+                            controller: grNumberController,
+                            decoration: InputDecoration(labelText: 'G.R No'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                          width: 120,
+                          child: TextFormField(
+                            controller: bookingDateController,
+                            decoration:
+                                InputDecoration(labelText: 'Challan Date'),
+                            readOnly:
+                                true, // Ensure the field is read-only to prevent manual input
+                            onTap: () async {
+                              // Show date picker and wait for the user to select a date
+                              final DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+
+                              // Update the controller value if a date is selected
+                              if (pickedDate != null) {
+                                setState(() {
+                                  bookingDateController.text = pickedDate
+                                      .toString(); // Update the text field with the selected date
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: bookingBranchController,
+                            decoration:
+                                InputDecoration(labelText: 'Booking Branch'),
+                            keyboardType: TextInputType.datetime,
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: bookingDateController,
-                      decoration: InputDecoration(labelText: 'Booking Date'),
-                      keyboardType: TextInputType.datetime,
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: bookingBranchController,
-                      decoration: InputDecoration(labelText: 'Booking Branch'),
-                      keyboardType: TextInputType.datetime,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: descController,
+                            decoration: InputDecoration(labelText: 'Description'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: destinationController,
+                            decoration: InputDecoration(labelText: 'Destination'),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: destinationController,
-                      decoration: InputDecoration(labelText: 'Destination'),
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: consignorNameController,
-                      decoration: InputDecoration(labelText: 'Consignor Name'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: consignorNameController,
+                                decoration:
+                                    InputDecoration(labelText: 'Consignor Name'),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextField(
+                                controller: consignorGSTController,
+                                decoration:
+                                    InputDecoration(labelText: 'Consignor GST'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: consigneeNameController,
+                                decoration:
+                                    InputDecoration(labelText: 'Consignee Name'),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextField(
+                                controller: consigneeGSTController,
+                                decoration:
+                                    InputDecoration(labelText: 'Consignee GST'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: consignorGSTController,
-                      decoration: InputDecoration(labelText: 'Consignor GST'),
+                    SizedBox(
+                      height: 14,
                     ),
-                    TextField(
-                      controller: consigneeNameController,
-                      decoration: InputDecoration(labelText: 'Consignee Name'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: quantityController,
+                            decoration: InputDecoration(labelText: 'Quantity'),
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: packingController,
+                            decoration: InputDecoration(labelText: 'Packing'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: weightController,
+                            decoration: InputDecoration(labelText: 'Weight'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: unitPriceController,
+                            decoration: InputDecoration(labelText: 'Unit Price'),
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: consigneeGSTController,
-                      decoration: InputDecoration(labelText: 'Consignee GST'),
-                    ),
-                    TextField(
-                      controller: quantityController,
-                      decoration: InputDecoration(labelText: 'Quantity'),
-                      keyboardType: TextInputType.number,
-                    ),
-                    TextField(
-                      controller: packingController,
-                      decoration: InputDecoration(labelText: 'Packing'),
-                    ),
-                    TextField(
-                      controller: descController,
-                      decoration: InputDecoration(labelText: 'Description'),
-                    ),
-                    TextField(
-                      controller: weightController,
-                      decoration: InputDecoration(labelText: 'Weight'),
-                    ),
-                    TextField(
-                      controller: unitPriceController,
-                      decoration: InputDecoration(labelText: 'Unit Price'),
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: _addItem,
-                      child: Text('Add Item'),
-                    ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 20),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length,
@@ -155,11 +264,12 @@ class _InvoicePageState extends State<InvoicePage> {
                         );
                       },
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
               ButtonWidget(
-                text: 'Invoice PDF',
+                text: 'Generate Invoice PDF   ->',
                 onClicked: () async {
                   final date = DateTime.now();
                   final dueDate = date.add(Duration(days: 7));
