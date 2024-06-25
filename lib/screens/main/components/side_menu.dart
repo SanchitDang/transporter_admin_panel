@@ -6,6 +6,8 @@ import 'package:admin/screens/warehouses/views/warehouses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../invoice/challan_page.dart';
+import '../../invoice/invoice_page.dart';
 import '../../users/users_screen.dart';
 import '../main_screen.dart';
 
@@ -107,15 +109,31 @@ class SideMenu extends StatelessWidget {
             },
           ),
           DrawerListTile(
-            title: "Profile",
+            title: "Generate Bill",
             svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      InvoicePage(),
+                ),
+              );
+            },
           ),
-          // DrawerListTile(
-          //   title: "Settings",
-          //   svgSrc: "assets/icons/menu_setting.svg",
-          //   press: () {},
-          // ),
+          DrawerListTile(
+            title: "Generate Challan",
+            svgSrc: "assets/icons/menu_profile.svg",
+            press: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      ChallanPage(),
+                ),
+              );
+            },
+          ),
           DrawerListTile(
             title: "Debug Screen",
             svgSrc: "assets/icons/menu_setting.svg",

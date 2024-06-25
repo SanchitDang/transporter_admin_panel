@@ -1,18 +1,17 @@
-import 'dart:io';
 import 'package:admin/screens/invoice/api/pdf_api.dart';
 import 'package:admin/screens/invoice/utils/invoice_utils.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 
+import '../model/challan.dart';
 import '../model/customer.dart';
-import '../model/invoice.dart';
 import '../model/supplier.dart';
 
 class PdfInvoiceApi {
 
   // for web implementation
-  static Future<dynamic> generate(Invoice invoice) async {
+  static Future<dynamic> generate(Challan invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -21,8 +20,8 @@ class PdfInvoiceApi {
         SizedBox(height: 3 * PdfPageFormat.cm),
         buildTitle(invoice),
         buildInvoice(invoice),
-        Divider(),
-        buildTotal(invoice),
+        // Divider(),
+        // buildTotal(invoice),
       ],
       footer: (context) => buildFooter(invoice),
     ));
@@ -33,7 +32,7 @@ class PdfInvoiceApi {
 
   /*
   // for other devices
-  static Future<File> generate(Invoice invoice) async {
+  static Future<File> generate(Challan invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -53,7 +52,7 @@ class PdfInvoiceApi {
   */
 
 
-  static Widget buildHeader(Invoice invoice) => Column(
+  static Widget buildHeader(Challan invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -91,11 +90,11 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget buildInvoiceInfo(InvoiceInfo info) {
+  static Widget buildInvoiceInfo(ChallanInfo info) {
     final paymentTerms = '${info.dueDate.difference(info.date).inDays} days';
     final titles = <String>[
-      'Invoice Number:',
-      'Invoice Date:',
+      'Challan Number:',
+      'Challan Date:',
       'Payment Terms:',
       'Due Date:'
     ];
@@ -126,7 +125,7 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget buildTitle(Invoice invoice) => Column(
+  static Widget buildTitle(Challan invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -139,46 +138,51 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget buildInvoice(Invoice invoice) {
+  static Widget buildInvoice(Challan invoice) {
 
     final headers = [
-      'GR No',
-      'Booking Date',
-      'Booking Branch',
-      'Destination',
+      'Challan No',
+      'G.R. No',
+      'Branch Name',
+      'Challan Date',
       'Consignor Name',
-      'Consignor GST',
       'Consignee Name',
-      'Consignee GST',
-      'Quantity',
-      'Packing',
-      'Description',
+      'Pkg',
       'Weight',
-      'Unit Price',
-      'Total'
+      'Freight',
+      'Destination',
+      'Truck Number',
+      'Agent Name',
+      'Truck Destination',
+      'Driver Name',
+      'Truck Freight',
+      'Advance Amount',
+      'Commission',
+      'Crossing Freight',
     ];
 
     final data = invoice.items.map((item) {
-      final total = item.unitPrice * item.quantity;
-
       return [
+        item.challanNo,
         item.grNo,
-        InvoiceUtils.formatDate(item.bookingDate),
-        item.bookingBranch,
-        item.destination,
+        item.branchName,
+        InvoiceUtils.formatDate(item.challanDate),
         item.consignorName,
-        item.consignorGST,
         item.consigneeName,
-        item.consigneeGST,
-        '${item.quantity}',
-        item.packing,
-        item.desc,
+        item.pkg,
         item.weight,
-        '\$ ${item.unitPrice}',
-        '\$ ${total.toStringAsFixed(2)}',
+        item.freight,
+        item.destination,
+        item.truckNumber,
+        item.agentName,
+        item.truckDestination,
+        item.driverName,
+        item.truckFreight,
+        item.advanceAmount,
+        item.commission,
+        item.crossingFreight,
       ];
     }).toList();
-
 
     return Table.fromTextArray(
       headers: headers,
@@ -198,59 +202,8 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildTotal(Invoice invoice) {
-    final netTotal = invoice.items
-        .map((item) => item.unitPrice * item.quantity)
-        .reduce((item1, item2) => item1 + item2);
-    // final vatPercent = invoice.items.first.vat;
-    // final vat = netTotal * vatPercent;
-    // final total = netTotal + vat;
 
-    final total = netTotal;
-
-    return Container(
-      alignment: Alignment.centerRight,
-      child: Row(
-        children: [
-          Spacer(flex: 6),
-          Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildText(
-                  title: 'Net total',
-                  value: InvoiceUtils.formatPrice(netTotal),
-                  unite: true,
-                ),
-                // buildText(
-                //   title: 'Vat ${vatPercent * 100} %',
-                //   value: InvoiceUtils.formatPrice(vat),
-                //   unite: true,
-                // ),
-                // Divider(),
-                buildText(
-                  title: 'Total amount due',
-                  titleStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  value: InvoiceUtils.formatPrice(total),
-                  unite: true,
-                ),
-                SizedBox(height: 2 * PdfPageFormat.mm),
-                Container(height: 1, color: PdfColors.grey400),
-                SizedBox(height: 0.5 * PdfPageFormat.mm),
-                Container(height: 1, color: PdfColors.grey400),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget buildFooter(Invoice invoice) => Column(
+  static Widget buildFooter(Challan invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Divider(),

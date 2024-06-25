@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../services/dart_html_service.dart';
 import '../../utils/constants.dart';
+import 'details_controller.dart';
+import 'goods_details.dart';
 
 class TripDetailsScreen extends StatelessWidget {
   const TripDetailsScreen({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class TripDetailsScreen extends StatelessWidget {
             onPressed: () => Get.back(),
             icon: const Icon(Icons.arrow_back_ios_new)),
         title:
-        Text("Edit Profile", style: Theme.of(context).textTheme.headlineMedium),
+        Text("Trip Details", style: Theme.of(context).textTheme.headlineMedium),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -115,19 +117,22 @@ class TripDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-                    // -- Form Submit Button
-                    // SizedBox(
-                    //   width: double.infinity,
-                    //   child: ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: primaryColor,
-                    //         side: BorderSide.none,
-                    //         shape: const StadiumBorder()),
-                    //     child: const Text("Update",
-                    //         style: TextStyle(color: secondaryColor)),
-                    //   ),
-                    // ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final c = Get.put(DetailsController());
+                          c.addGoodsFromList(profileController.goodsData.value);
+                          Get.to(const GoodsDetailsPage());
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            side: BorderSide.none,
+                            shape: const StadiumBorder()),
+                        child: const Text("See Products attached with this delivery",
+                            style: TextStyle(color: secondaryColor)),
+                      ),
+                    ),
                     // const SizedBox(height: 20),
 
                   ],
